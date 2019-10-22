@@ -1,0 +1,57 @@
+<?php
+ class CircularQueue {
+    
+    private $items = [];
+    private $size = 0;
+
+    private $head = 0;
+    private $tail = 0;
+    // $capacity 数组队列的大小。
+    public function __construct($capacity) {
+        $this->items = [];
+        $this->size = $capacity;
+    }
+
+    // 入队列
+    public function enqueue($item) {
+        // 队列满了  
+        if(($this->tail + 1) % $this->size == $this->head) return false;
+        $this->items[$this->tail] = $item;
+        $this->tail = ($this->tail + 1) % $this->size;
+        return true;
+    }
+
+    // 出队列
+    public function dequeue() {
+        if($this->tail == $this->head) return null;
+
+        $ret = $this->items[$this->head];
+        $this->head = ($this->head + 1) % $this->size;
+        return $ret;
+    }
+}
+
+$circularQueue = new CircularQueue(3);
+var_dump($circularQueue->enqueue(1));// bool(true)
+var_dump($circularQueue->enqueue(2));// bool(true)
+var_dump($circularQueue->enqueue(3));// bool(false)
+var_dump($circularQueue->enqueue(4));// bool(false)
+
+var_dump($circularQueue->dequeue());// int(1)
+var_dump($circularQueue->dequeue());// int(2)
+var_dump($circularQueue->dequeue());// NULL
+
+var_dump($circularQueue->enqueue(5));// bool(true);
+var_dump($circularQueue->dequeue());// int(5)
+var_dump($circularQueue->dequeue());// NULL
+
+var_dump($circularQueue->enqueue(5));// bool(true);
+var_dump($circularQueue->dequeue());// int(5)
+
+
+
+
+
+
+
+
